@@ -2,12 +2,13 @@ import React, { useEffect, useState, useContext } from 'react';
 import Key from './Keys';
 import { FlexRow } from '../utilities';
 
-import { playNote } from '../audioApi';
 import ScaleContext from '../context/ScaleContext';
+import SynthContext from '../context/SynthContext';
 
-export default function KeyContainer({ octave, wave, tempo, sequence, curScale, attack, sustain, release }) {
+export default function KeyContainer({ octave, wave, tempo, filter, curScale, attack, sustain, release, reverb }) {
         const [key, setKey] = useState([]);
         const scales = useContext(ScaleContext);
+        const synth = useContext(SynthContext);
 
         const [keyValues, setKeyValues] = useState(['a', 's', 'd', 'f', 'g', 'h', 'j', 'k']);
 
@@ -29,16 +30,20 @@ export default function KeyContainer({ octave, wave, tempo, sequence, curScale, 
                                 const currentNote = scales[curScale][`${notes[e.key]}`];
                                 console.log('current note', currentNote);
                                 if (notes[e.key] === '7') {
-                                        playNote(`${currentNote}${octave + 1}`, wave, {
+                                        synth.playNote(`${currentNote}${octave + 1}`, wave, {
                                                 sustainTime: sustain,
                                                 attackTime: attack,
                                                 releaseTime: release,
+                                                reverb,
+                                                filter,
                                         });
                                 } else {
-                                        playNote(`${currentNote}${octave}`, wave, {
+                                        synth.playNote(`${currentNote}${octave}`, wave, {
                                                 sustainTime: sustain,
                                                 attackTime: attack,
                                                 releaseTime: release,
+                                                reverb,
+                                                filter,
                                         });
                                 }
                         }
@@ -62,13 +67,13 @@ export default function KeyContainer({ octave, wave, tempo, sequence, curScale, 
                         const currentNote = scales[curScale][`${notes[keyClicked]}`];
                         console.log('current note', currentNote);
                         if (notes[keyClicked] === '7') {
-                                playNote(`${currentNote}${octave + 1}`, wave, {
+                                synth.playNote(`${currentNote}${octave + 1}`, wave, {
                                         sustainTime: sustain,
                                         attackTime: attack,
                                         releaseTime: release,
                                 });
                         } else {
-                                playNote(`${currentNote}${octave}`, wave, {
+                                synth.playNote(`${currentNote}${octave}`, wave, {
                                         sustainTime: sustain,
                                         attackTime: attack,
                                         releaseTime: release,
@@ -101,7 +106,7 @@ export default function KeyContainer({ octave, wave, tempo, sequence, curScale, 
                         window.removeEventListener('keydown', handleKeyDown);
                         window.removeEventListener('keyup', handleKeyUp);
                 };
-        }, [octave, wave, attack, sustain, release]);
+        }, [octave, wave, attack, sustain, release, reverb, filter]);
 
         return (
                 <FlexRow justify="space-evenly">

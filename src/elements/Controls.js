@@ -5,15 +5,16 @@ import { FlexRow, teal, veryDarkPurple } from '../utilities';
 const OctaveButton = styled.button`
         font-size: 1.5rem;
         padding: 0.5rem 0.5rem;
+        margin-right: 2rem;
+        margin-left: 2rem;
         background-color: #541388;
         border: none;
         border-radius: 2px;
 `;
 export const ControlContainer = styled.div`
-        width: 30%;
         height: 40px;
         display: flex;
-        justify-content: space-evenly;
+        justify-content: space-between;
         align-items: center;
 
         ${({ flow }) => flow === 'column' && 'flex-direction: column'};
@@ -24,13 +25,15 @@ export const ControlContainer = styled.div`
                 flex-direction: column-reverse;
                 justify-content: space-between;
                 align-items: center;
+                position: relative;
 
                 input {
-                        width: 30%;
+                        width: 70%;
                 }
 
                 label {
                         color: ${teal};
+                        width: 110px;
                 }
 
                 p {
@@ -43,6 +46,11 @@ export const ControlContainer = styled.div`
         h5 {
                 display: block;
                 color: ${teal};
+        }
+
+        .absolute {
+                position: absolute;
+                top: 40px;
         }
 `;
 
@@ -92,7 +100,7 @@ export default function Controls({
                                                 value={attack}
                                                 onChange={updateAttack}
                                                 min={0.01}
-                                                max={0.5}
+                                                max={2}
                                                 step={0.01}
                                         />
                                 </div>

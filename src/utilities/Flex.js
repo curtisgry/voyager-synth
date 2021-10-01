@@ -6,7 +6,7 @@ export const FlexRow = styled.div`
         display: flex;
         justify-content: ${(props) => props.justify};
         /* align-items: center; */
-        margin-bottom: 5rem;
+        margin-bottom: 2rem;
 `;
 
 export const FlexCol = styled.div`
