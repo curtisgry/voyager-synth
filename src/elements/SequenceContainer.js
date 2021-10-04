@@ -1,26 +1,31 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { FlexRow, teal } from '../utilities';
-import SequenceRow from './SequenceRow';
 
-const ContainAll = styled.div`
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        height: 400px;
-`;
+import styled from 'styled-components';
+import { FlexRow, FlexRowSequence, teal } from '../utilities';
+import SequenceRow from './SequenceRow';
 
 const ScaleDisplay = styled.div`
         display: flex;
         flex-direction: column-reverse;
         justify-content: space-between;
+        position: absolute;
+        left: 10%;
         margin-top: 0.3rem;
         height: 344px;
         color: ${teal};
 
         h4 {
                 margin: 0;
+        }
+
+        @media (max-width: 1200px) {
+                left: 5px;
+                font-size: 0.7rem;
+                height: 208px;
+        }
+
+        @media (max-width: 320px) {
+                height: 185px;
         }
 `;
 
@@ -44,9 +49,9 @@ export default function SequenceContainer({ sequence, updateSequence, scale, ste
         }
 
         const columns = genGridColumns();
-        console.log(sequence);
+
         return (
-                <FlexRow justify="space-evenly">
+                <FlexRowSequence justify="space-evenly">
                         <ScaleDisplay>
                                 <h4>{scale[0]}</h4>
                                 <h4>{scale[1]}</h4>
@@ -58,6 +63,6 @@ export default function SequenceContainer({ sequence, updateSequence, scale, ste
                                 <h4>{scale[7]}</h4>
                         </ScaleDisplay>
                         {columns}
-                </FlexRow>
+                </FlexRowSequence>
         );
 }

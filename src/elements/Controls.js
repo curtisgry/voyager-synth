@@ -1,28 +1,40 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { FlexRow, teal, veryDarkPurple } from '../utilities';
+import { FlexRow, lightPurple, teal, veryDarkPurple } from '../utilities';
 
 const OctaveButton = styled.button`
         font-size: 1.5rem;
         padding: 0.5rem 0.5rem;
-        margin-right: 2rem;
-        margin-left: 2rem;
+        margin-right: 1rem;
+        margin-left: 1rem;
         background-color: #541388;
         border: none;
         border-radius: 2px;
+        cursor: pointer;
+
+        &:hover {
+                background-color: ${lightPurple};
+        }
 `;
 export const ControlContainer = styled.div`
-        height: 40px;
         display: flex;
+
         justify-content: space-between;
         align-items: center;
 
         ${({ flow }) => flow === 'column' && 'flex-direction: column'};
 
+        label {
+                color: ${teal};
+                font-size: 1.3rem;
+                text-align: center;
+                margin-right: 2rem;
+        }
         div {
                 width: 100%;
+                max-width: 150px;
                 display: flex;
-                flex-direction: column-reverse;
+                flex-direction: column;
                 justify-content: space-between;
                 align-items: center;
                 position: relative;
@@ -32,8 +44,8 @@ export const ControlContainer = styled.div`
                 }
 
                 label {
-                        color: ${teal};
-                        width: 110px;
+                        display: inline-block;
+                        margin-left: 2rem;
                 }
 
                 p {
@@ -42,6 +54,14 @@ export const ControlContainer = styled.div`
         }
         h3 {
                 color: ${teal};
+                font-size: 1rem;
+                text-align: center;
+                margin-bottom: 0;
+        }
+        h4 {
+                color: ${teal};
+                font-size: 1.2rem;
+                text-align: center;
         }
         h5 {
                 display: block;
@@ -51,13 +71,17 @@ export const ControlContainer = styled.div`
         .absolute {
                 position: absolute;
                 top: 40px;
+                left: 20px;
         }
 `;
 
-const WaveSelect = styled.select`
+const CustomSelect = styled.select`
         font-size: 1.5rem;
         color: ${teal};
         background-color: ${veryDarkPurple};
+        border-radius: 4px;
+        border: none;
+        margin-right: 1rem;
 `;
 
 export default function Controls({
@@ -68,30 +92,38 @@ export default function Controls({
         changeWave,
         attack,
         updateAttack,
-        sustain,
-        updateSustain,
+
         release,
         updateRelease,
+        scale,
+        changeScale,
 }) {
         return (
                 <FlexRow justify="space-evenly">
                         <ControlContainer>
-                                <h3>Octave</h3>
+                                <label htmlFor="octave">Octave</label>
                                 <OctaveButton onClick={decreaseOctave}>-</OctaveButton>
-                                <h3>{octave}</h3>
+                                <h4>{octave}</h4>
                                 <OctaveButton onClick={increaseOctave}>+</OctaveButton>
                         </ControlContainer>
                         <ControlContainer>
-                                <h3>Wave Form</h3>
-                                <WaveSelect name="wave" value={wave} onChange={changeWave}>
+                                <label htmlFor="scale">Scale</label>
+                                <CustomSelect name="scale" value={scale} onChange={changeScale}>
+                                        <option value="cMaj">Cmaj</option>
+                                        <option value="cMin">Cmin</option>
+                                </CustomSelect>
+                        </ControlContainer>
+                        <ControlContainer>
+                                <label htmlFor="wave">Wave Form</label>
+                                <CustomSelect id="wave" name="wave" value={wave} onChange={changeWave}>
                                         <option value="square">Square</option>
                                         <option value="sine">Sine</option>
                                         <option value="sawtooth">Sawtooth</option>
                                         <option value="triangle">Triangle</option>
-                                </WaveSelect>
+                                </CustomSelect>
                         </ControlContainer>
                         <ControlContainer>
-                                <h3>Envelope</h3>
+                                <label htmlFor="envelope">Envelope</label>
                                 <div>
                                         <label htmlFor="attack">Attack</label>
                                         <input
@@ -100,22 +132,11 @@ export default function Controls({
                                                 value={attack}
                                                 onChange={updateAttack}
                                                 min={0.01}
-                                                max={2}
-                                                step={0.01}
-                                        />
-                                </div>
-                                <div>
-                                        <label htmlFor="sustain">Length</label>
-                                        <input
-                                                type="range"
-                                                name="sustain"
-                                                value={sustain}
-                                                onChange={updateSustain}
-                                                min={0.01}
                                                 max={1}
                                                 step={0.01}
                                         />
                                 </div>
+
                                 <div>
                                         <label htmlFor="release">Release</label>
                                         <input
@@ -124,7 +145,7 @@ export default function Controls({
                                                 value={release}
                                                 onChange={updateRelease}
                                                 min={0.01}
-                                                max={1}
+                                                max={2}
                                                 step={0.01}
                                         />
                                 </div>

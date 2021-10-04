@@ -9,10 +9,8 @@ import ScaleContext from './context/ScaleContext';
 import Controls from './elements/Controls';
 import SequenceContainer from './elements/SequenceContainer';
 import SequenceControls from './elements/SequenceControls';
-import { Synth } from './audioApi';
-import SynthContext from './context/SynthContext';
 
-// const synth = new Synth();
+import SynthContext from './context/SynthContext';
 
 const BgGif = styled.img`
         position: fixed;
@@ -24,6 +22,9 @@ const BgGif = styled.img`
         background-color: teal;
         filter: hue-rotate(90deg);
         z-index: -1;
+        @media (max-width: 1200px) {
+                display: none;
+        }
 `;
 
 const CornerImage = styled.img`
@@ -31,6 +32,10 @@ const CornerImage = styled.img`
         position: fixed;
         bottom: 10px;
         right: 10px;
+
+        @media (max-width: 1200px) {
+                display: none;
+        }
 `;
 
 function App() {
@@ -45,6 +50,10 @@ function App() {
         const [wave, setWave] = useState('square');
         const scales = useContext(ScaleContext);
         const [curScale, setCurScale] = useState('cMin');
+
+        function changeScale(e) {
+                setCurScale(e.target.value);
+        }
 
         // Step sequencer state
         const [tempo, setTempo] = useState(120);
@@ -73,8 +82,6 @@ function App() {
 
         // Reverb settings values
         const [reverb, setReverb] = useState(false);
-        const [verbDecay, setVerbDecay] = useState(10);
-        const [verbTime, setVerbTime] = useState(5);
 
         // filter
         const [filter, setFilter] = useState(false);
@@ -141,16 +148,12 @@ function App() {
                                                                 sustainTime: sustain,
                                                                 attackTime: attack,
                                                                 releaseTime: release,
-                                                                reverb,
-                                                                filter,
                                                         });
                                                 } else {
                                                         synth.playNote(`${note}${octave}`, wave, {
                                                                 sustainTime: sustain,
                                                                 attackTime: attack,
                                                                 releaseTime: release,
-                                                                reverb,
-                                                                filter,
                                                         });
                                                 }
                                         }
@@ -179,24 +182,11 @@ function App() {
                 setRelease(nextTime);
         }
 
-        function updateVerbDecay(e) {
-                const nextDecayTime = parseFloat(e.target.value);
-
-                setVerbDecay(nextDecayTime);
-        }
-        function updateVerbTime(e) {
-                const nextVerbTime = parseFloat(e.target.value);
-
-                setVerbTime(nextVerbTime);
-        }
-
         function toggleReverb() {
                 setReverb((verb) => !verb);
         }
 
-        useEffect(() => {
-                synth.generateImpulse({ seconds: verbTime, decay: verbDecay });
-        }, [verbTime, verbDecay, reverb]);
+        useEffect(() => {}, [curScale, setCurScale]);
 
         return (
                 <div className="App">
@@ -214,6 +204,8 @@ function App() {
                                 updateSustain={updateSustain}
                                 release={release}
                                 updateRelease={updateRelease}
+                                scale={curScale}
+                                changeScale={changeScale}
                         />
                         <KeyContainer
                                 wave={wave}
@@ -240,10 +232,6 @@ function App() {
                                 isPlaying={isPlaying}
                                 togglePlaying={togglePlaying}
                                 playSequence={playSequence}
-                                verbDecay={verbDecay}
-                                updateVerbDecay={updateVerbDecay}
-                                verbTime={verbTime}
-                                updateVerbTime={updateVerbTime}
                                 reverb={reverb}
                                 toggleReverb={toggleReverb}
                                 filter={filter}

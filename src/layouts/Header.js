@@ -12,11 +12,18 @@ const Header = () => (
 const AppHeader = styled.header`
         pointer-events: none;
         width: 100%;
-        height: 200px;
+        height: 140px;
         position: relative;
         .logo {
                 ${centerAbsolute};
-                top: 50%;
+                top: 60%;
+        }
+        @media (max-width: 1200px) {
+                height: 100px;
+                .logo {
+                        ${centerAbsolute};
+                        top: 70%;
+                }
         }
 `;
 

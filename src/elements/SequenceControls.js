@@ -1,13 +1,36 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import SynthContext from '../context/SynthContext';
-import { FlexRow } from '../utilities';
+import { FlexRow, teal } from '../utilities';
 import { ControlContainer } from './Controls';
 
-const ControlsButton = styled.button``;
+const ControlsButton = styled.button`
+        cursor: pointer;
+        color: black;
+        background-color: #540d6e;
+        border: none;
+        padding: 10px 15px;
+        font-size: 1.4rem;
+        border-radius: 4px;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
+
+        transition: all 0.3s;
+
+        @media (max-width: 1200px) {
+                padding: 3px;
+        }
+`;
 
 const TempoInput = styled.input`
-        width: 50px;
+        font-family: inherit;
+        text-align: center;
+        border: none;
+        border-radius: 4px;
+        padding: 10px;
+
+        @media (max-width: 1200px) {
+                padding: 3px;
+        }
 `;
 
 export default function SequenceControls({
@@ -16,10 +39,6 @@ export default function SequenceControls({
         tempo,
         changeTempo,
         playSequence,
-        verbTime,
-        updateVerbTime,
-        reverse,
-        toggleReverse,
         reverb,
         toggleReverb,
         filter,
@@ -28,6 +47,9 @@ export default function SequenceControls({
         const [freq, setFreq] = useState(400);
         const synth = useContext(SynthContext);
 
+        const [verbDecay, setVerbDecay] = useState(10);
+        const [verbTime, setVerbTime] = useState(5);
+
         function updateFreq(e) {
                 const nextFreq = parseFloat(e.target.value);
 
@@ -35,16 +57,37 @@ export default function SequenceControls({
                 synth.addFilter(freq);
         }
 
+        // function updateVerbDecay(e) {
+        //         const nextDecayTime = parseFloat(e.target.value);
+
+        //         setVerbDecay(nextDecayTime);
+        // }
+
+        function updateVerbTime(e) {
+                const nextVerbTime = parseFloat(e.target.value);
+
+                setVerbTime(nextVerbTime);
+                synth.generateImpulse({ seconds: verbTime });
+        }
+
+        useEffect(() => {
+                synth.generateImpulse({ seconds: verbTime, decay: verbDecay });
+                synth.reverb = reverb;
+                synth.filter = filter;
+        }, [reverb, filter]);
+
         return (
                 <FlexRow justify="space-evenly">
                         <ControlContainer>
-                                <h3>Tempo</h3>
+                                <label htmlFor="tempo">Tempo</label>
                                 <TempoInput type="number" value={tempo} onChange={changeTempo} />
                         </ControlContainer>
                         <ControlContainer>
-                                <h3>Reverb</h3>
+                                <label htmlFor="reverb">Reverb</label>
                                 <div>
-                                        <ControlsButton onClick={toggleReverb}>{reverb ? 'On' : 'Off'}</ControlsButton>
+                                        <ControlsButton className={reverb ? 'toggled' : ''} onClick={toggleReverb}>
+                                                {reverb ? 'On' : 'Off'}
+                                        </ControlsButton>
                                 </div>
                                 <div>
                                         <label htmlFor="time">Time</label>
@@ -60,14 +103,18 @@ export default function SequenceControls({
                                 </div>
                         </ControlContainer>
                         <ControlContainer>
-                                <h3>Filter</h3>
+                                <label htmlFor="filter">Filter</label>
                                 <div>
-                                        <ControlsButton onClick={toggleFilter}>{filter ? 'On' : 'Off'}</ControlsButton>
+                                        <ControlsButton className={filter ? 'toggled' : ''} onClick={toggleFilter}>
+                                                {filter ? 'On' : 'Off'}
+                                        </ControlsButton>
                                 </div>
-                                <div>
-                                        <label htmlFor="time">Frequency: {freq}</label>
+                                <div style={{ position: 'relative' }}>
+                                        <h3>Frequency</h3>
+                                        <label style={{ fontSize: '1rem', position: 'absolute' }} htmlFor="time">
+                                                {freq}
+                                        </label>
                                         <input
-                                                className="absolute"
                                                 type="range"
                                                 name="time"
                                                 value={freq}
@@ -80,6 +127,7 @@ export default function SequenceControls({
                         </ControlContainer>
                         <ControlContainer>
                                 <ControlsButton
+                                        className={isPlaying ? 'toggled' : ''}
                                         onClick={() => {
                                                 togglePlaying();
                                                 setTimeout(() => {

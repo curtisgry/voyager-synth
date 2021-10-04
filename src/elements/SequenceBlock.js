@@ -9,6 +9,15 @@ const Block = styled.div`
         border-radius: 3px;
         margin-bottom: 1rem;
         position: relative;
+        @media (max-width: 1200px) {
+                width: 18px;
+                height: 18px;
+        }
+
+        @media (max-width: 320px) {
+                width: 15px;
+                height: 15px;
+        }
 
         ${({ dataActive }) =>
                 dataActive === true &&

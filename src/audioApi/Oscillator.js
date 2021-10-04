@@ -22,6 +22,9 @@ export class Synth {
                 this._verb = this._context.createConvolver();
                 this.biquadFilter = this._context.createBiquadFilter();
 
+                this._filterOn = false;
+                this._verbOn = false;
+
                 this.compressor = new DynamicsCompressorNode(this._context);
                 this.compressor.threshold.setValueAtTime(-50, audioCtx.currentTime);
                 this.compressor.knee.setValueAtTime(40, audioCtx.currentTime);
@@ -55,44 +58,64 @@ export class Synth {
                 this._verb.buffer = impulse;
         }
 
-        playNote(note, wave = 'square', { reverb = false, filter = false, sustainTime, attackTime, releaseTime } = {}) {
-                console.log('Params', attackTime, sustainTime, releaseTime);
+        playNote(
+                note,
+                wave = 'square',
+                { reverb = this._verbOn, filter = this._filterOn, sustainTime, attackTime, releaseTime } = {}
+        ) {
                 const notePlayed = notes[note];
                 const oscillator = this._context.createOscillator();
                 const time = this._context.currentTime;
 
+                // Handle timing for gain node to create the volume envelope of the oscillator output
                 const gainNode = this._context.createGain();
 
                 gainNode.gain.cancelScheduledValues(time);
                 gainNode.gain.setValueAtTime(0, time);
-                console.log(time + attackTime);
+
                 gainNode.gain.linearRampToValueAtTime(1, time + attackTime);
-                console.log(time + sustainTime + attackTime);
-                // gainNode.gain.setValueAtTime(1, time + sustainTime + attackTime);
+
                 gainNode.gain.linearRampToValueAtTime(0, time + attackTime + sustainTime + releaseTime);
-                console.log(time + sustainTime + attackTime + releaseTime);
+
                 oscillator.type = wave;
                 oscillator.frequency.setValueAtTime(notePlayed, time); // value in hertz
-                console.log('reverb', reverb);
 
+                // Connect oscillator to gain node to initialize its chain
                 oscillator.connect(gainNode);
+
                 if (reverb && filter) {
+                        // disconnects make sure the last connections are reset so the correct effect is heard based on the parameters
+                        this._verb.disconnect();
+                        this.biquadFilter.disconnect();
+                        // Order of effect connnections will alter how the ouput sounds
                         gainNode.connect(this._verb);
                         this._verb.connect(this.biquadFilter);
                         this.biquadFilter.connect(this.compressor);
-                } else if (filter) {
+                } else if (filter && !reverb) {
+                        this._verb.disconnect();
                         gainNode.connect(this.biquadFilter);
                         this.biquadFilter.connect(this.compressor);
-                } else if (reverb) {
+                } else if (reverb && !filter) {
+                        this.biquadFilter.disconnect();
                         gainNode.connect(this._verb);
                         this._verb.connect(this.compressor);
                 } else {
                         gainNode.connect(this.compressor);
                 }
 
+                // Last connection is compressor to destination
                 this.compressor.connect(this._context.destination);
 
+                // Start and stop instance of the oscillator. The stop method handles removing the instance on its own
                 oscillator.start(time);
                 oscillator.stop(time + attackTime + sustainTime + releaseTime);
+        }
+
+        set reverb(boolean) {
+                this._verbOn = boolean;
+        }
+
+        set filter(boolean) {
+                this._filterOn = boolean;
         }
 }

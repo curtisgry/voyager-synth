@@ -28,22 +28,17 @@ export default function KeyContainer({ octave, wave, tempo, filter, curScale, at
                 if (!e.repeat) {
                         if (notes[e.key]) {
                                 const currentNote = scales[curScale][`${notes[e.key]}`];
-                                console.log('current note', currentNote);
                                 if (notes[e.key] === '7') {
                                         synth.playNote(`${currentNote}${octave + 1}`, wave, {
                                                 sustainTime: sustain,
                                                 attackTime: attack,
                                                 releaseTime: release,
-                                                reverb,
-                                                filter,
                                         });
                                 } else {
                                         synth.playNote(`${currentNote}${octave}`, wave, {
                                                 sustainTime: sustain,
                                                 attackTime: attack,
                                                 releaseTime: release,
-                                                reverb,
-                                                filter,
                                         });
                                 }
                         }
@@ -62,10 +57,9 @@ export default function KeyContainer({ octave, wave, tempo, filter, curScale, at
 
         function handleMouseDown(e) {
                 const keyClicked = e.target.dataset.keyval;
-                console.dir(keyClicked);
                 if (notes[keyClicked]) {
                         const currentNote = scales[curScale][`${notes[keyClicked]}`];
-                        console.log('current note', currentNote);
+
                         if (notes[keyClicked] === '7') {
                                 synth.playNote(`${currentNote}${octave + 1}`, wave, {
                                         sustainTime: sustain,
@@ -94,9 +88,7 @@ export default function KeyContainer({ octave, wave, tempo, filter, curScale, at
                 setKey((prev) => prev.filter((k) => k !== keyClicked));
         }
 
-        useEffect(() => {
-                console.log('value of state', key);
-        }, [key]);
+        useEffect(() => {}, [key]);
 
         useEffect(() => {
                 window.addEventListener('keydown', handleKeyDown);
@@ -106,7 +98,7 @@ export default function KeyContainer({ octave, wave, tempo, filter, curScale, at
                         window.removeEventListener('keydown', handleKeyDown);
                         window.removeEventListener('keyup', handleKeyUp);
                 };
-        }, [octave, wave, attack, sustain, release, reverb, filter]);
+        }, [octave, wave, attack, sustain, release, curScale]);
 
         return (
                 <FlexRow justify="space-evenly">

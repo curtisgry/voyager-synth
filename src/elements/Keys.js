@@ -23,6 +23,17 @@ const KeyButton = styled.div`
         &::active {
                 background-color: white;
         }
+
+        @media (max-width: 1200px) {
+                width: 80px;
+                height: 80px;
+        }
+
+        @media (max-width: 600px) {
+                width: 60px;
+                height: 60px;
+                font-size: 1rem;
+        }
 `;
 
 const KeyText = styled.span`
@@ -36,11 +47,14 @@ const KeyText = styled.span`
         -ms-user-select: none; /* Internet Explorer/Edge */
         user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
+        @media (max-width: 600px) {
+                font-size: 1.4rem;
+        }
 `;
 
 export default function Key({ keyPressed, keyValue, note, handleMouseDown, handleMouseUp }) {
         const findKey = keyPressed.find((key) => key === keyValue);
-        console.log(findKey);
+
         return (
                 <KeyButton
                         className={findKey ? 'on' : ''}
