@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.js": "/curtisgry/voyager-synth/static/js/main.bd5738fa.chunk.js",
+    "main.js.map": "/curtisgry/voyager-synth/static/js/main.bd5738fa.chunk.js.map",
+    "runtime-main.js": "/curtisgry/voyager-synth/static/js/runtime-main.25f9f142.js",
+    "runtime-main.js.map": "/curtisgry/voyager-synth/static/js/runtime-main.25f9f142.js.map",
+    "static/js/2.c89be940.chunk.js": "/curtisgry/voyager-synth/static/js/2.c89be940.chunk.js",
+    "static/js/2.c89be940.chunk.js.map": "/curtisgry/voyager-synth/static/js/2.c89be940.chunk.js.map",
+    "static/js/3.63682208.chunk.js": "/curtisgry/voyager-synth/static/js/3.63682208.chunk.js",
+    "static/js/3.63682208.chunk.js.map": "/curtisgry/voyager-synth/static/js/3.63682208.chunk.js.map",
+    "index.html": "/curtisgry/voyager-synth/index.html",
+    "static/js/2.c89be940.chunk.js.LICENSE.txt": "/curtisgry/voyager-synth/static/js/2.c89be940.chunk.js.LICENSE.txt",
+    "static/media/logo.dbd5ff71.png": "/curtisgry/voyager-synth/static/media/logo.dbd5ff71.png",
+    "static/media/particles.718707aa.gif": "/curtisgry/voyager-synth/static/media/particles.718707aa.gif",
+    "static/media/record.d32105fc.png": "/curtisgry/voyager-synth/static/media/record.d32105fc.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.25f9f142.js",
+    "static/js/2.c89be940.chunk.js",
+    "static/js/main.bd5738fa.chunk.js"
+  ]
+}
