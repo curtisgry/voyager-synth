@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
-import { black, darkGradient, teal } from './utilities';
+import { darkGradient, teal } from './utilities';
 
 const GlobalStyle = createGlobalStyle`
 

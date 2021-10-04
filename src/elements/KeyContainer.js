@@ -5,7 +5,7 @@ import { FlexRow } from '../utilities';
 import ScaleContext from '../context/ScaleContext';
 import SynthContext from '../context/SynthContext';
 
-export default function KeyContainer({ octave, wave, tempo, filter, curScale, attack, sustain, release, reverb }) {
+export default function KeyContainer({ octave, wave, curScale, attack, sustain, release }) {
         const [key, setKey] = useState([]);
         const scales = useContext(ScaleContext);
         const synth = useContext(SynthContext);
