@@ -5,6 +5,9 @@ export const veryDarkPurple = '#261447';
 export const darkPurple = '#2e2157';
 export const indigo = '#920075';
 export const lightPurple = '#540d6e';
+export const lightPurple2 = '#791e94';
+export const magenta = '#f6019d';
+export const pinkGlow = '#d40078';
 
 export const teal = '#2de2e6';
 

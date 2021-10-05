@@ -1,16 +1,23 @@
 import styled from 'styled-components';
 import { useContext, useEffect, useState } from 'react';
 import GlobalStyle from './Global';
-import Header from './layouts/Header';
+import Header from './components/layout/Header';
 import particles from './particles.gif';
 import record from './record.png';
-import KeyContainer from './elements/KeyContainer';
+import KeyContainer from './components/input/KeyContainer';
 import ScaleContext from './context/ScaleContext';
-import Controls from './elements/Controls';
-import SequenceContainer from './elements/SequenceContainer';
-import SequenceControls from './elements/SequenceControls';
+import SequenceContainer from './components/input/SequenceContainer';
 
 import SynthContext from './context/SynthContext';
+import { FlexRow } from './utilities';
+import Octave from './components/controls/Octave';
+import Scale from './components/controls/Scale';
+import WaveForm from './components/controls/WaveForm';
+import Envelope from './components/controls/Envelope';
+import Tempo from './components/controls/Tempo';
+import Reverb from './components/controls/Reverb';
+import Filter from './components/controls/Filter';
+import PlayButton from './components/controls/PlayButton';
 
 const BgGif = styled.img`
         position: fixed;
@@ -192,21 +199,21 @@ function App() {
                 <div className="App">
                         <BgGif src={particles} />
                         <Header />
-                        <Controls
-                                octave={octave}
-                                increaseOctave={increaseOctave}
-                                decreaseOctave={decreaseOctave}
-                                wave={wave}
-                                changeWave={changeWave}
-                                attack={attack}
-                                updateAttack={updateAttack}
-                                sustain={sustain}
-                                updateSustain={updateSustain}
-                                release={release}
-                                updateRelease={updateRelease}
-                                scale={curScale}
-                                changeScale={changeScale}
-                        />
+                        <FlexRow justify="space-evenly">
+                                <Octave
+                                        octave={octave}
+                                        increaseOctave={increaseOctave}
+                                        decreaseOctave={decreaseOctave}
+                                />
+                                <Scale scale={curScale} changeScale={changeScale} />
+                                <WaveForm wave={wave} changeWave={changeWave} />
+                                <Envelope
+                                        attack={attack}
+                                        release={release}
+                                        updateAttack={updateAttack}
+                                        updateRelease={updateRelease}
+                                />
+                        </FlexRow>
                         <KeyContainer
                                 wave={wave}
                                 octave={octave}
@@ -226,17 +233,16 @@ function App() {
                                 step={step}
                                 reverb={reverb}
                         />
-                        <SequenceControls
-                                tempo={tempo}
-                                changeTempo={changeTempo}
-                                isPlaying={isPlaying}
-                                togglePlaying={togglePlaying}
-                                playSequence={playSequence}
-                                reverb={reverb}
-                                toggleReverb={toggleReverb}
-                                filter={filter}
-                                toggleFilter={toggleFilter}
-                        />
+                        <FlexRow justify="space-evenly">
+                                <Tempo tempo={tempo} changeTempo={changeTempo} />
+                                <Reverb reverb={reverb} toggleReverb={toggleReverb} />
+                                <Filter filter={filter} toggleFilter={toggleFilter} />
+                                <PlayButton
+                                        isPlaying={isPlaying}
+                                        togglePlaying={togglePlaying}
+                                        playSequence={playSequence}
+                                />
+                        </FlexRow>
                         <GlobalStyle />
                         <CornerImage src={record} />
                 </div>

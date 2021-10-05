@@ -1,33 +1,7 @@
 import React from 'react';
-
-import styled from 'styled-components';
-import { FlexRow, FlexRowSequence, teal } from '../utilities';
+import { ScaleDisplay } from '../../elements';
+import { FlexRowSequence } from '../../utilities';
 import SequenceRow from './SequenceRow';
-
-const ScaleDisplay = styled.div`
-        display: flex;
-        flex-direction: column-reverse;
-        justify-content: space-between;
-        position: absolute;
-        left: 10%;
-        margin-top: 0.3rem;
-        height: 344px;
-        color: ${teal};
-
-        h4 {
-                margin: 0;
-        }
-
-        @media (max-width: 1200px) {
-                left: 5px;
-                font-size: 0.7rem;
-                height: 208px;
-        }
-
-        @media (max-width: 320px) {
-                height: 185px;
-        }
-`;
 
 export default function SequenceContainer({ sequence, updateSequence, scale, step }) {
         function genGridColumns() {

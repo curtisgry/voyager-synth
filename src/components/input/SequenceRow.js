@@ -1,21 +1,6 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
-import { indigo, teal } from '../utilities';
+import { Row } from '../../utilities';
 import SequenceBlock from './SequenceBlock';
-
-const Row = styled.div`
-        display: flex;
-        flex-direction: column-reverse;
-        color: ${teal};
-        background-color: transparent;
-        border-radius: 100px;
-        transition: all 0.05s;
-        position: relative;
-
-        span {
-                margin-bottom: 0.5rem;
-        }
-`;
 
 export default function SequenceRow({ index, sequence, updateSequence, step }) {
         function genBlocks() {

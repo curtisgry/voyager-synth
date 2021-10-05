@@ -1,8 +1,28 @@
-import React from 'react';
 import styled, { css } from 'styled-components';
-import { darkPurple, teal } from '../utilities';
+import { darkPurple, lightPurple2, magenta, pinkGlow, teal, veryDarkPurple } from '../utilities';
 
-const Block = styled.div`
+export const ControlSelect = styled.select`
+        font-size: 1.5rem;
+        color: ${teal};
+        background-color: ${veryDarkPurple};
+        border-radius: 4px;
+        border: none;
+        margin-right: 1rem;
+`;
+
+export const TempoInput = styled.input`
+        font-family: inherit;
+        text-align: center;
+        border: none;
+        border-radius: 4px;
+        padding: 10px;
+
+        @media (max-width: 1200px) {
+                padding: 3px;
+        }
+`;
+
+export const Block = styled.div`
         height: 30px;
         width: 30px;
         background-color: ${darkPurple};
@@ -22,14 +42,14 @@ const Block = styled.div`
         ${({ dataActive }) =>
                 dataActive === true &&
                 css`
-                        background-color: #791e94;
+                        background-color: ${lightPurple2};
                 `}
 
         ${({ step, row }) =>
                 step === row &&
                 css`
-                        background-color: #f6019d;
-                        box-shadow: 0 0 15px #d40078;
+                        background-color: ${magenta};
+                        box-shadow: 0 0 15px ${pinkGlow};
                         &:before {
                                 content: '';
                                 position: absolute;
@@ -38,13 +58,12 @@ const Block = styled.div`
                                 width: 100%;
                                 height: 100%;
                                 border-radius: 10px;
-                                background: #d40078;
+                                background: ${pinkGlow};
                                 transition: 0.2s;
-                                box-shadow: 0 0 15px #d40078;
+                                box-shadow: 0 0 15px ${pinkGlow};
                                 filter: blur(3px);
                                 z-index: -1;
                         }
-                        /* background-color: #d40078; */
                 `}
 
     ${({ step, row, dataActive }) => {
@@ -71,15 +90,27 @@ const Block = styled.div`
         }}
 `;
 
-export default function SequenceBlock({ dataActive, updateSequence, index, dataRow, step }) {
-        return (
-                <Block
-                        onClick={updateSequence}
-                        dataActive={dataActive}
-                        data-index={index}
-                        data-row={dataRow}
-                        row={dataRow}
-                        step={step}
-                />
-        );
-}
+export const ScaleDisplay = styled.div`
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: space-between;
+        position: absolute;
+        left: 10%;
+        margin-top: 0.3rem;
+        height: 344px;
+        color: ${teal};
+
+        h4 {
+                margin: 0;
+        }
+
+        @media (max-width: 1200px) {
+                left: 5px;
+                font-size: 0.7rem;
+                height: 208px;
+        }
+
+        @media (max-width: 320px) {
+                height: 185px;
+        }
+`;

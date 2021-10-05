@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useContext } from 'react';
 import Key from './Keys';
-import { FlexRow } from '../utilities';
+import { FlexRow } from '../../utilities';
 
-import ScaleContext from '../context/ScaleContext';
-import SynthContext from '../context/SynthContext';
+import ScaleContext from '../../context/ScaleContext';
+import SynthContext from '../../context/SynthContext';
 
 export default function KeyContainer({ octave, wave, curScale, attack, sustain, release }) {
         const [key, setKey] = useState([]);

@@ -50,9 +50,9 @@ export class Synth {
                 for (i = 0; i < length; i++) {
                         n = reverse ? length - i : i;
                         // eslint-disable-next-line
-            impulseL[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, decay);
+      impulseL[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, decay);
                         // eslint-disable-next-line
-            impulseR[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, decay);
+      impulseR[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, decay);
                 }
 
                 this._verb.buffer = impulse;
