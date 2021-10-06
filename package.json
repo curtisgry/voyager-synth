@@ -48,7 +48,8 @@
       "no-plusplus": 0,
       "no-shadow": 0,
       "no-unused-vars": 0,
-      "react-hooks/exhaustive-deps": 0
+      "react-hooks/exhaustive-deps": 0,
+      "no-restricted-properties": 0
     }
   },
   "browserslist": {

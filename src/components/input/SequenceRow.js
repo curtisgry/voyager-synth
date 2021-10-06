@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row } from '../../utilities';
+import { Row } from '../../elements';
 import SequenceBlock from './SequenceBlock';
 
 export default function SequenceRow({ index, sequence, updateSequence, step }) {

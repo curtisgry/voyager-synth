@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const ControlContainer = styled.div`
         display: flex;
-
+        width: 23%;
         justify-content: center;
         align-items: center;
 

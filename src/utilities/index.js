@@ -4,6 +4,5 @@ export * from './Position';
 export * from './Colors';
 export * from './Type';
 export * from './Flex';
-export * from './Containers';
 
 export { elevation };

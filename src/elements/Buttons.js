@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { baseFont, darkPurple, indigo, lightPurple, teal } from '../utilities';
 
 export const OctaveButton = styled.button`
@@ -28,6 +28,30 @@ export const ControlsToggleButton = styled.button`
         box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
 
         transition: all 0.3s;
+
+        ${({ toggle }) =>
+                toggle &&
+                css`
+                        background-color: #791e94;
+
+                        text-shadow: 0 0 15px #2de2e6;
+                        color: ${teal};
+                        box-shadow: 0 0 30px ${teal};
+                        &:before {
+                                content: '';
+
+                                top: 0;
+                                left: 0;
+                                width: 100%;
+                                height: 100%;
+                                border-radius: 10px;
+                                background: ${teal};
+                                transition: 0.2s;
+                                box-shadow: 0 0 15px ${teal};
+                                filter: blur(3px);
+                                z-index: -1;
+                        }
+                `}
 
         @media (max-width: 1200px) {
                 padding: 3px;

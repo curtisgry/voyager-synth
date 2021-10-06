@@ -2,12 +2,12 @@ import React, { useEffect, useState, useContext } from 'react';
 import Key from './Keys';
 import { FlexRow } from '../../utilities';
 
-import ScaleContext from '../../context/ScaleContext';
+import { ScaleContext } from '../../context/ScaleContext';
 import SynthContext from '../../context/SynthContext';
 
-export default function KeyContainer({ octave, wave, curScale, attack, sustain, release }) {
+export default function KeyContainer({ wave, attack, sustain, release, curKey }) {
         const [key, setKey] = useState([]);
-        const scales = useContext(ScaleContext);
+        const { currentScale, curScaleType, octave } = useContext(ScaleContext);
         const synth = useContext(SynthContext);
 
         const [keyValues, setKeyValues] = useState(['a', 's', 'd', 'f', 'g', 'h', 'j', 'k']);
@@ -27,20 +27,13 @@ export default function KeyContainer({ octave, wave, curScale, attack, sustain, 
         function handleKeyDown(e) {
                 if (!e.repeat) {
                         if (notes[e.key]) {
-                                const currentNote = scales[curScale][`${notes[e.key]}`];
-                                if (notes[e.key] === '7') {
-                                        synth.playNote(`${currentNote}${octave + 1}`, wave, {
-                                                sustainTime: sustain,
-                                                attackTime: attack,
-                                                releaseTime: release,
-                                        });
-                                } else {
-                                        synth.playNote(`${currentNote}${octave}`, wave, {
-                                                sustainTime: sustain,
-                                                attackTime: attack,
-                                                releaseTime: release,
-                                        });
-                                }
+                                const currentNote = currentScale[`${parseInt(notes[e.key])}`];
+
+                                synth.playNote(`${currentNote}`, {
+                                        sustainTime: sustain,
+                                        attackTime: attack,
+                                        releaseTime: release,
+                                });
                         }
 
                         setKey((key) => {
@@ -57,22 +50,15 @@ export default function KeyContainer({ octave, wave, curScale, attack, sustain, 
 
         function handleMouseDown(e) {
                 const keyClicked = e.target.dataset.keyval;
-                if (notes[keyClicked]) {
-                        const currentNote = scales[curScale][`${notes[keyClicked]}`];
 
-                        if (notes[keyClicked] === '7') {
-                                synth.playNote(`${currentNote}${octave + 1}`, wave, {
-                                        sustainTime: sustain,
-                                        attackTime: attack,
-                                        releaseTime: release,
-                                });
-                        } else {
-                                synth.playNote(`${currentNote}${octave}`, wave, {
-                                        sustainTime: sustain,
-                                        attackTime: attack,
-                                        releaseTime: release,
-                                });
-                        }
+                if (notes[keyClicked]) {
+                        const currentNote = currentScale[`${parseInt(notes[keyClicked])}`];
+
+                        synth.playNote(`${currentNote}`, {
+                                sustainTime: sustain,
+                                attackTime: attack,
+                                releaseTime: release,
+                        });
 
                         setKey((key) => {
                                 if (key.length < 4) {
@@ -88,8 +74,6 @@ export default function KeyContainer({ octave, wave, curScale, attack, sustain, 
                 setKey((prev) => prev.filter((k) => k !== keyClicked));
         }
 
-        useEffect(() => {}, [key]);
-
         useEffect(() => {
                 window.addEventListener('keydown', handleKeyDown);
                 window.addEventListener('keyup', handleKeyUp);
@@ -98,7 +82,7 @@ export default function KeyContainer({ octave, wave, curScale, attack, sustain, 
                         window.removeEventListener('keydown', handleKeyDown);
                         window.removeEventListener('keyup', handleKeyUp);
                 };
-        }, [octave, wave, attack, sustain, release, curScale]);
+        }, [octave, wave, attack, sustain, release, currentScale, curKey, curScaleType]);
 
         return (
                 <FlexRow justify="space-evenly">
@@ -106,56 +90,56 @@ export default function KeyContainer({ octave, wave, curScale, attack, sustain, 
                                 handleMouseDown={handleMouseDown}
                                 handleMouseUp={handleMouseUp}
                                 keyPressed={key}
-                                note={scales[curScale]['0']}
+                                note={currentScale['0']}
                                 keyValue={keyValues[0]}
                         />
                         <Key
                                 handleMouseDown={handleMouseDown}
                                 handleMouseUp={handleMouseUp}
                                 keyPressed={key}
-                                note={scales[curScale]['1']}
+                                note={currentScale['1']}
                                 keyValue={keyValues[1]}
                         />
                         <Key
                                 handleMouseDown={handleMouseDown}
                                 handleMouseUp={handleMouseUp}
                                 keyPressed={key}
-                                note={scales[curScale]['2']}
+                                note={currentScale['2']}
                                 keyValue={keyValues[2]}
                         />
                         <Key
                                 handleMouseDown={handleMouseDown}
                                 handleMouseUp={handleMouseUp}
                                 keyPressed={key}
-                                note={scales[curScale]['3']}
+                                note={currentScale['3']}
                                 keyValue={keyValues[3]}
                         />
                         <Key
                                 handleMouseDown={handleMouseDown}
                                 handleMouseUp={handleMouseUp}
                                 keyPressed={key}
-                                note={scales[curScale]['4']}
+                                note={currentScale['4']}
                                 keyValue={keyValues[4]}
                         />
                         <Key
                                 handleMouseDown={handleMouseDown}
                                 handleMouseUp={handleMouseUp}
                                 keyPressed={key}
-                                note={scales[curScale]['5']}
+                                note={currentScale['5']}
                                 keyValue={keyValues[5]}
                         />
                         <Key
                                 handleMouseDown={handleMouseDown}
                                 handleMouseUp={handleMouseUp}
                                 keyPressed={key}
-                                note={scales[curScale]['6']}
+                                note={currentScale['6']}
                                 keyValue={keyValues[6]}
                         />
                         <Key
                                 handleMouseDown={handleMouseDown}
                                 handleMouseUp={handleMouseUp}
                                 keyPressed={key}
-                                note={scales[curScale]['7']}
+                                note={currentScale['7']}
                                 keyValue={keyValues[7]}
                         />
                 </FlexRow>

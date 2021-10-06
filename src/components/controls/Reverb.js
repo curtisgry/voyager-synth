@@ -1,8 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import SynthContext from '../../context/SynthContext';
-import { ControlTitle } from '../../elements';
-import { ControlsToggleButton } from '../../elements/Buttons';
-import { ControlContainer, ControlSubContainer } from '../../utilities';
+import { ControlTitle, ControlsToggleButton, ControlContainer, ControlSubContainer, Range } from '../../elements';
 
 export default function Reverb({ reverb, toggleReverb }) {
         const synth = useContext(SynthContext);
@@ -25,13 +23,13 @@ export default function Reverb({ reverb, toggleReverb }) {
                 <ControlContainer>
                         <ControlTitle>Reverb</ControlTitle>
                         <ControlSubContainer>
-                                <ControlsToggleButton verb={reverb} onClick={toggleReverb}>
+                                <ControlsToggleButton toggle={reverb} onClick={toggleReverb}>
                                         {reverb ? 'On' : 'Off'}
                                 </ControlsToggleButton>
                         </ControlSubContainer>
                         <ControlSubContainer>
                                 <ControlTitle>Time</ControlTitle>
-                                <input
+                                <Range
                                         type="range"
                                         name="time"
                                         value={verbTime}

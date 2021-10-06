@@ -1,12 +1,11 @@
 import React from 'react';
-import { ControlsToggleButton } from '../../elements/Buttons';
-import { ControlContainer } from '../../utilities';
+import { ControlsToggleButton, ControlContainer } from '../../elements';
 
 export default function PlayButton({ isPlaying, playSequence, togglePlaying }) {
         return (
                 <ControlContainer>
                         <ControlsToggleButton
-                                className={isPlaying ? 'toggled' : ''}
+                                toggle={isPlaying}
                                 onClick={() => {
                                         togglePlaying();
                                         setTimeout(() => {

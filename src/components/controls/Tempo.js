@@ -1,7 +1,5 @@
 import React from 'react';
-import { TempoInput } from '../../elements';
-import { ControlTitle } from '../../elements/Headings';
-import { ControlContainer } from '../../utilities';
+import { TempoInput, ControlTitle, ControlContainer } from '../../elements';
 
 export default function Tempo({ tempo, changeTempo }) {
         return (

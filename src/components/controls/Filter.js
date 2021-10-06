@@ -1,8 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import SynthContext from '../../context/SynthContext';
-import { ControlDetail, ControlTitle } from '../../elements';
+import { ControlDetail, ControlTitle, ControlContainer, ControlSubContainer, Range } from '../../elements';
 import { ControlsToggleButton } from '../../elements/Buttons';
-import { ControlContainer, ControlSubContainer } from '../../utilities';
 
 export default function Filter({ filter, toggleFilter }) {
         const synth = useContext(SynthContext);
@@ -23,16 +22,14 @@ export default function Filter({ filter, toggleFilter }) {
                 <ControlContainer>
                         <ControlTitle>Filter</ControlTitle>
                         <ControlSubContainer>
-                                <ControlsToggleButton className={filter ? 'toggled' : ''} onClick={toggleFilter}>
+                                <ControlsToggleButton toggle={filter} onClick={toggleFilter}>
                                         {filter ? 'On' : 'Off'}
                                 </ControlsToggleButton>
                         </ControlSubContainer>
                         <ControlSubContainer>
-                                <ControlTitle>Frequency</ControlTitle>
-                                <ControlDetail style={{ fontSize: '1rem', position: 'absolute' }} htmlFor="time">
-                                        {freq}
-                                </ControlDetail>
-                                <input
+                                <ControlTitle style={{ marginBottom: 0 }}>Frequency</ControlTitle>
+                                <ControlDetail>{freq}Hz</ControlDetail>
+                                <Range
                                         type="range"
                                         name="time"
                                         value={freq}

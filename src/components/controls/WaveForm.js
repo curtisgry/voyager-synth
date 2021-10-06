@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
+import SynthContext from '../../context/SynthContext';
 
-import { ControlTitle } from '../../elements/Headings';
-import { ControlSelect } from '../../elements/Inputs';
-import { ControlContainer } from '../../utilities';
+import { ControlTitle, ControlSelect, ControlContainer } from '../../elements';
 
-export default function WaveForm({ wave, changeWave }) {
+export default function WaveForm() {
+        const synth = useContext(SynthContext);
+        const [wave, setWave] = useState('square');
+        function changeWave(e) {
+                setWave(e.target.value);
+                synth.wave = wave;
+        }
+        synth.wave = wave;
         return (
                 <ControlContainer>
                         <ControlTitle>Wave Form</ControlTitle>

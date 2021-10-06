@@ -25,6 +25,8 @@ export class Synth {
                 this._filterOn = false;
                 this._verbOn = false;
 
+                this.waveForm = 'square';
+
                 this.compressor = new DynamicsCompressorNode(this._context);
                 this.compressor.threshold.setValueAtTime(-50, audioCtx.currentTime);
                 this.compressor.knee.setValueAtTime(40, audioCtx.currentTime);
@@ -49,10 +51,10 @@ export class Synth {
 
                 for (i = 0; i < length; i++) {
                         n = reverse ? length - i : i;
-                        // eslint-disable-next-line
-      impulseL[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, decay);
-                        // eslint-disable-next-line
-      impulseR[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, decay);
+
+                        impulseL[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, decay);
+
+                        impulseR[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, decay);
                 }
 
                 this._verb.buffer = impulse;
@@ -60,13 +62,19 @@ export class Synth {
 
         playNote(
                 note,
-                wave = 'square',
-                { reverb = this._verbOn, filter = this._filterOn, sustainTime, attackTime, releaseTime } = {}
+                {
+                        wave = this.waveForm,
+                        reverb = this._verbOn,
+                        filter = this._filterOn,
+                        sustainTime,
+                        attackTime,
+                        releaseTime,
+                } = {}
         ) {
                 const notePlayed = notes[note];
                 const oscillator = this._context.createOscillator();
                 const time = this._context.currentTime;
-
+                console.log(notePlayed);
                 // Handle timing for gain node to create the volume envelope of the oscillator output
                 const gainNode = this._context.createGain();
 
@@ -117,5 +125,9 @@ export class Synth {
 
         set filter(boolean) {
                 this._filterOn = boolean;
+        }
+
+        set wave(wavetype) {
+                this.waveForm = wavetype;
         }
 }

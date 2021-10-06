@@ -1,10 +1,11 @@
-import React from 'react';
-import { OctaveButton } from '../../elements/Buttons';
+import React, { useContext } from 'react';
+import { ScaleContext } from '../../context/ScaleContext';
+import { OctaveButton, ControlContainer } from '../../elements';
 
 import { ControlDetail, ControlTitle } from '../../elements/Headings';
-import { ControlContainer } from '../../utilities';
 
-export default function Octave({ octave, decreaseOctave, increaseOctave }) {
+export default function Octave() {
+        const { octave, increaseOctave, decreaseOctave } = useContext(ScaleContext);
         return (
                 <ControlContainer>
                         <ControlTitle>Octave</ControlTitle>

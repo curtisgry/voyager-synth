@@ -5,12 +5,12 @@ export const ControlTitle = styled.h3`
         color: ${teal};
         font-size: 1rem;
         text-align: center;
-        margin-bottom: 0;
+        margin-right: 0.7rem;
 `;
 
 export const ControlDetail = styled.h4`
         color: ${teal};
-        font-size: 1.2rem;
+        font-size: 0.8rem;
         text-align: center;
 `;
 

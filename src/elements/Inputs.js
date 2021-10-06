@@ -114,3 +114,7 @@ export const ScaleDisplay = styled.div`
                 height: 185px;
         }
 `;
+
+export const Range = styled.input`
+        width: 80px;
+`;

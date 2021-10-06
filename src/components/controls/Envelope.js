@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ControlDetail, ControlTitle } from '../../elements/Headings';
-import { ControlContainer } from '../../utilities';
+import { ControlContainer, Range } from '../../elements';
 
 export default function Envelope({ attack, release, updateAttack, updateRelease }) {
         return (
@@ -9,7 +9,7 @@ export default function Envelope({ attack, release, updateAttack, updateRelease 
                         <ControlTitle>Envelope</ControlTitle>
                         <div>
                                 <ControlDetail>Attack</ControlDetail>
-                                <input
+                                <Range
                                         type="range"
                                         name="attack"
                                         value={attack}
@@ -22,7 +22,7 @@ export default function Envelope({ attack, release, updateAttack, updateRelease 
 
                         <div>
                                 <ControlDetail>Release</ControlDetail>
-                                <input
+                                <Range
                                         type="range"
                                         name="release"
                                         value={release}

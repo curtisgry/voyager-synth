@@ -1,16 +1,23 @@
-import React from 'react';
-import { ControlTitle } from '../../elements/Headings';
+import React, { useContext } from 'react';
+import { ScaleContext } from '../../context/ScaleContext';
+import { ControlTitle, ControlSelect, ControlContainer } from '../../elements';
 
-import { ControlSelect } from '../../elements/Inputs';
-import { ControlContainer } from '../../utilities';
+export default function Scale() {
+        const { scaleData, key, curScaleType, changeScale, changeKey } = useContext(ScaleContext);
 
-export default function Scale({ scale, changeScale }) {
         return (
                 <ControlContainer>
                         <ControlTitle>Scale</ControlTitle>
-                        <ControlSelect name="scale" value={scale} onChange={changeScale}>
-                                <option value="cMaj">Cmaj</option>
-                                <option value="cMin">Cmin</option>
+                        <ControlSelect name="scale" value={key} onInput={changeKey}>
+                                {scaleData.rootNotes.map((note) => (
+                                        <option key={note} value={note}>
+                                                {note}
+                                        </option>
+                                ))}
+                        </ControlSelect>
+                        <ControlSelect name="key" value={curScaleType} onChange={changeScale}>
+                                <option value="minor">Minor</option>
+                                <option value="major">Major</option>
                         </ControlSelect>
                 </ControlContainer>
         );
