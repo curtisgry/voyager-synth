@@ -2,16 +2,24 @@ import React, { useContext, useState, useEffect } from 'react';
 import SynthContext from '../../context/SynthContext';
 import { ControlDetail, ControlTitle, ControlContainer, ControlSubContainer, Range } from '../../elements';
 import { ControlsToggleButton } from '../../elements/Buttons';
+import Knob from '../input/Knob';
 
 export default function Filter({ filter, toggleFilter }) {
         const synth = useContext(SynthContext);
-        const [freq, setFreq] = useState(400);
+        const [freq, setFreq] = useState(50);
 
-        function updateFreq(e) {
-                const nextFreq = parseFloat(e.target.value);
+        function updateFreq(e, val = null) {
+                if (!val) {
+                        const nextFreq = parseFloat(e.target.value);
 
-                setFreq(nextFreq);
-                synth.addFilter(freq);
+                        setFreq(nextFreq);
+                        synth.addFilter(freq);
+                } else {
+                        const nextFreq = parseFloat(val);
+
+                        setFreq(nextFreq);
+                        synth.addFilter(freq);
+                }
         }
 
         useEffect(() => {
@@ -27,16 +35,14 @@ export default function Filter({ filter, toggleFilter }) {
                                 </ControlsToggleButton>
                         </ControlSubContainer>
                         <ControlSubContainer>
-                                <ControlTitle style={{ marginBottom: 0 }}>Frequency</ControlTitle>
-                                <ControlDetail>{freq}Hz</ControlDetail>
-                                <Range
-                                        type="range"
-                                        name="time"
+                                <Knob
+                                        title="Frequency"
+                                        valueDetail="Hz"
                                         value={freq}
-                                        onChange={updateFreq}
                                         min={50}
                                         max={10000}
-                                        step={1}
+                                        step="25"
+                                        onChange={updateFreq}
                                 />
                         </ControlSubContainer>
                 </ControlContainer>

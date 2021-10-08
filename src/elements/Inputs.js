@@ -16,6 +16,7 @@ export const TempoInput = styled.input`
         border: none;
         border-radius: 4px;
         padding: 10px;
+        width: 100px;
 
         @media (max-width: 1200px) {
                 padding: 3px;

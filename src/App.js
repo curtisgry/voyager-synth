@@ -23,7 +23,7 @@ function App() {
         // Synth envelope values
         const [attack, setAttack] = useState(0.01);
         const [sustain, setSustain] = useState(0.1);
-        const [release, setRelease] = useState(0.03);
+        const [release, setRelease] = useState(0.01);
         const synth = useContext(SynthContext);
 
         // Scale and bse synth settings
@@ -130,14 +130,14 @@ function App() {
                         setAttack(nextAttackTime);
                 }
         }
-        function updateSustain(e) {
-                const nextTime = parseFloat(e.target.value);
-                setSustain(nextTime);
-        }
-
-        function updateRelease(e) {
-                const nextTime = parseFloat(e.target.value);
-                setRelease(nextTime);
+        function updateRelease(e, val = null) {
+                if (!val) {
+                        const nextReleaseTime = parseFloat(e.target.value);
+                        setSustain(nextReleaseTime);
+                } else {
+                        const nextReleaseTime = parseFloat(val);
+                        setRelease(nextReleaseTime);
+                }
         }
 
         function toggleReverb() {

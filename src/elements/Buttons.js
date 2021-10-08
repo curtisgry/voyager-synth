@@ -26,7 +26,7 @@ export const ControlsToggleButton = styled.button`
         font-size: 1.4rem;
         border-radius: 4px;
         box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
-
+        margin-right: 1rem;
         transition: all 0.3s;
 
         ${({ toggle }) =>

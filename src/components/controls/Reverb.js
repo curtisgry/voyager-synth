@@ -1,17 +1,23 @@
 import React, { useContext, useState, useEffect } from 'react';
 import SynthContext from '../../context/SynthContext';
 import { ControlTitle, ControlsToggleButton, ControlContainer, ControlSubContainer, Range } from '../../elements';
+import Knob from '../input/Knob';
 
 export default function Reverb({ reverb, toggleReverb }) {
         const synth = useContext(SynthContext);
         const [verbDecay, setVerbDecay] = useState(10);
-        const [verbTime, setVerbTime] = useState(5);
+        const [verbTime, setVerbTime] = useState(0.1);
 
-        function updateVerbTime(e) {
-                const nextVerbTime = parseFloat(e.target.value);
-
-                setVerbTime(nextVerbTime);
-                synth.generateImpulse({ seconds: verbTime });
+        function updateVerbTime(e, val = null) {
+                if (!val) {
+                        const nextVerbTime = parseFloat(e.target.value);
+                        setVerbTime(nextVerbTime);
+                        synth.generateImpulse({ seconds: verbTime });
+                } else {
+                        const nextVerbTime = parseFloat(val);
+                        setVerbTime(nextVerbTime);
+                        synth.generateImpulse({ seconds: verbTime });
+                }
         }
 
         useEffect(() => {
@@ -28,15 +34,13 @@ export default function Reverb({ reverb, toggleReverb }) {
                                 </ControlsToggleButton>
                         </ControlSubContainer>
                         <ControlSubContainer>
-                                <ControlTitle>Time</ControlTitle>
-                                <Range
-                                        type="range"
-                                        name="time"
-                                        value={verbTime}
-                                        onChange={updateVerbTime}
+                                <Knob
+                                        title="Time"
                                         min={0.5}
                                         max={10}
-                                        step={0.01}
+                                        step="0.1"
+                                        value={verbTime}
+                                        onChange={updateVerbTime}
                                 />
                         </ControlSubContainer>
                 </ControlContainer>

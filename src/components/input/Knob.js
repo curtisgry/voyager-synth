@@ -29,7 +29,7 @@ const KnobContainer = styled.div`
 `;
 const KnobLine = styled.div`
         width: 2px;
-        height: 15px;
+        height: 18px;
         background-color: ${teal};
         position: absolute;
         left: 0;
@@ -43,36 +43,40 @@ const LineContainer = styled.div`
 
         position: absolute;
         top: 50%;
+        z-index: 100;
 
         /* background-color: white; */
 
         transform-origin: center;
+
         ${({ rotation }) => `
                 transform: translate(-50%, -50%) rotate(${rotation}deg);
         `};
 `;
 
+const KnobText = styled.p`
+        color: ${teal};
+        position: absolute;
+        font-size: 0.78rem;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+`;
+
 const KnobDisplay = styled.span`
-        -webkit-touch-callout: none; /* iOS Safari */
-        -webkit-user-select: none; /* Safari */
-        -khtml-user-select: none; /* Konqueror HTML */
-        -moz-user-select: none; /* Old versions of Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-        user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome, Edge, Opera and Firefox */
-        font-size: 0.8rem;
+        font-size: 0.7rem;
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
 `;
 
-export default function Knob({ min, max, step, value, onChange }) {
+export default function Knob({ title, min, max, step, value, valueDetail, onChange }) {
         const [offset, setOffset] = useState(189);
         const [active, setActive] = useState(false);
-        const [stateValue, setStateValue] = useState(0);
+        const [stateValue, setStateValue] = useState();
         const [stepCount, setStepCount] = useState(0);
-        const [rotation, setRotation] = useState(0);
+        const [rotation, setRotation] = useState(4);
 
         function countDecimals(num) {
                 const value = parseFloat(num);
@@ -84,7 +88,6 @@ export default function Knob({ min, max, step, value, onChange }) {
         }
 
         function updateOffset(e) {
-                console.log(e.target);
                 onChange(e);
         }
 
@@ -100,7 +103,7 @@ export default function Knob({ min, max, step, value, onChange }) {
                         if (e.movementY === -1) {
                                 if (Math.floor(offset) > 0) {
                                         setOffset(offset - (189 / max) * step);
-                                        setRotation(rotation + (265 / max) * step);
+                                        setRotation(rotation + (264 / max) * step);
 
                                         const newVal = (
                                                 max -
@@ -114,7 +117,7 @@ export default function Knob({ min, max, step, value, onChange }) {
                         if (e.movementY === 1) {
                                 if (Math.floor(offset) < 189) {
                                         setOffset(offset + (189 / max) * step);
-                                        setRotation(rotation - (265 / max) * step);
+                                        setRotation(rotation - (264 / max) * step);
 
                                         const newVal = (max - (offset / 189) * Math.abs(max - min) - step).toFixed(
                                                 stepCount
@@ -134,8 +137,6 @@ export default function Knob({ min, max, step, value, onChange }) {
                         setActive((act) => !act);
                 }
         }
-        console.log('rotation', rotation);
-        console.log('offset', offset);
 
         return (
                 <KnobContainer
@@ -149,7 +150,10 @@ export default function Knob({ min, max, step, value, onChange }) {
                         <LineContainer rotation={rotation}>
                                 <KnobLine />
                         </LineContainer>
-                        <KnobDisplay>{value}</KnobDisplay>
+                        <KnobDisplay>
+                                {value}
+                                {valueDetail || ''}
+                        </KnobDisplay>
                         <svg viewBox="0 0 100 100">
                                 <path d="M20,76 A 40 40 0 1 1 80 76" fill="none" stroke="#55595C" />
                                 <path d="M20,76 A 40 40 0 1 1 80 76" fill="none" />
@@ -160,6 +164,7 @@ export default function Knob({ min, max, step, value, onChange }) {
                         </svg>
 
                         <input type="range" value={value} min={min} max={max} step={step} onChange={updateOffset} />
+                        <KnobText>{title}</KnobText>
                 </KnobContainer>
         );
 }
