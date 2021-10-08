@@ -17,6 +17,7 @@ import Reverb from './components/controls/Reverb';
 import Filter from './components/controls/Filter';
 import PlayButton from './components/controls/PlayButton';
 import { BgGif, CornerImage } from './elements';
+import Knob from './components/input/Knob';
 
 function App() {
         // Synth envelope values
@@ -120,10 +121,14 @@ function App() {
                 }
         }
 
-        function updateAttack(e) {
-                const nextAttackTime = parseFloat(e.target.value);
-
-                setAttack(nextAttackTime);
+        function updateAttack(e, val = null) {
+                if (!val) {
+                        const nextAttackTime = parseFloat(e.target.value);
+                        setAttack(nextAttackTime);
+                } else {
+                        const nextAttackTime = parseFloat(val);
+                        setAttack(nextAttackTime);
+                }
         }
         function updateSustain(e) {
                 const nextTime = parseFloat(e.target.value);

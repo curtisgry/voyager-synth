@@ -1,7 +1,11 @@
 import React, { useState, createContext, useEffect } from 'react';
 import scale from 'music-scale';
 
-const minor = scale('1 2 2# 4 5 5# 6#', 'C4');
+const minor = scale('1 2 3b 4 5 6b 7b', 'C4');
+
+const major = scale('1 2 3 4 5 6 7', 'Eb4');
+
+console.log(major);
 
 minor.push('C5');
 
@@ -11,15 +15,17 @@ export const ScaleContext = createContext();
 
 export function ScaleProvider({ children }) {
         const [scaleData, setScaleData] = useState({
-                rootNotes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'],
+                rootNotes: ['C', 'C#', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B'],
                 setScale: (root, octave, type) => {
                         if (type === 'minor') {
                                 const newScale = scale('1 2 3b 4 5 6b 7b', `${root}${octave}`);
+                                // Adds the 8th note which will be in the octave above current
                                 newScale.push(`${root}${octave + 1}`);
                                 console.log('New Scale', newScale);
                                 return newScale;
                         }
                         const newScale = scale('1 2 3 4 5 6 7', `${root}${octave}`);
+                        console.log(newScale);
                         newScale.push(`${root}${octave + 1}`);
                         return newScale;
                 },

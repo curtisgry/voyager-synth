@@ -16,7 +16,7 @@ export const ControlDetail = styled.h4`
 
 export const KeyText = styled.span`
         pointer-events: none;
-        font-size: 3rem;
+        font-size: 2rem;
         color: inherit;
         -webkit-touch-callout: none; /* iOS Safari */
         -webkit-user-select: none; /* Safari */

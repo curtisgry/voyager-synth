@@ -21,6 +21,14 @@ export default function KeyContainer({ wave, attack, sustain, release, curKey })
                 h: '5',
                 j: '6',
                 k: '7',
+                A: '0',
+                S: '1',
+                D: '2',
+                F: '3',
+                G: '4',
+                H: '5',
+                J: '6',
+                K: '7',
         });
 
         // This is doing the same thing as click should refactor
@@ -37,7 +45,7 @@ export default function KeyContainer({ wave, attack, sustain, release, curKey })
                         }
 
                         setKey((key) => {
-                                if (key.length < 4) {
+                                if (key.length < 9) {
                                         return [...key, e.key];
                                 }
                                 return [...key];
