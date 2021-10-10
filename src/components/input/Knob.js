@@ -17,16 +17,16 @@ const KnobContainer = styled.div`
                 position: absolute;
                 left: 0;
         }
-        .dial-svg {
-                stroke: ${teal};
-                width: 100%;
-                stroke-dasharray: 189px;
-
-                ${({ offset }) => `
-                    stroke-dashoffset: ${offset}px;
-                    `}
-        }
 `;
+
+const DialSvg = styled.svg.attrs(({ offset }) => ({
+        strokeDashoffset: offset,
+}))`
+        stroke: ${teal};
+        width: 100%;
+        stroke-dasharray: 189px;
+`;
+
 const KnobLine = styled.div`
         width: 2px;
         height: 18px;
@@ -80,7 +80,7 @@ export default function Knob({ title, min, max, step, value, valueDetail, onChan
 
         function countDecimals(num) {
                 const value = parseFloat(num);
-                console.log('value', value);
+
                 if (value) {
                         if (Math.floor(value) === value) return 0;
                         return value.toString().split('.')[1].length || 0;
@@ -96,14 +96,21 @@ export default function Knob({ title, min, max, step, value, valueDetail, onChan
                         const steps = countDecimals(step);
                         setStepCount(steps);
                 }
+
+                const startingOffset = ((max - min) / value).toFixed(2);
+
+                setOffset(offset - (189 / startingOffset).toFixed(2));
+
+                setRotation((260 / startingOffset).toFixed(2));
         }, []);
 
         function dragHandler(e) {
                 if (active) {
+                        // console.log(e);
                         if (e.movementY === -1) {
                                 if (Math.floor(offset) > 0) {
-                                        setOffset(offset - (189 / max) * step);
-                                        setRotation(rotation + (264 / max) * step);
+                                        setOffset(offset - (189 / max) * parseFloat(step));
+                                        setRotation(parseFloat(rotation) + (260 / max) * parseFloat(step));
 
                                         const newVal = (
                                                 max -
@@ -116,8 +123,8 @@ export default function Knob({ title, min, max, step, value, valueDetail, onChan
                         }
                         if (e.movementY === 1) {
                                 if (Math.floor(offset) < 189) {
-                                        setOffset(offset + (189 / max) * step);
-                                        setRotation(rotation - (264 / max) * step);
+                                        setOffset(offset + (189 / max) * parseFloat(step));
+                                        setRotation(rotation - (264 / max) * parseFloat(step));
 
                                         const newVal = (max - (offset / 189) * Math.abs(max - min) - step).toFixed(
                                                 stepCount
@@ -129,10 +136,15 @@ export default function Knob({ title, min, max, step, value, valueDetail, onChan
                 }
         }
 
-        function toggleActive() {
+        function toggleActive(e) {
+                console.log(e.target);
                 setActive((act) => !act);
         }
-        function leaveToggleActive() {
+        function toggleActiveUp(e) {
+                setActive(false);
+        }
+        function leaveToggleActive(e) {
+                console.log(e.target);
                 if (active) {
                         setActive((act) => !act);
                 }
@@ -142,7 +154,7 @@ export default function Knob({ title, min, max, step, value, valueDetail, onChan
                 <KnobContainer
                         active={active}
                         onMouseDown={toggleActive}
-                        onMouseUp={toggleActive}
+                        onMouseUp={toggleActiveUp}
                         onMouseLeave={leaveToggleActive}
                         onMouseMove={dragHandler}
                         offset={offset}
@@ -158,10 +170,10 @@ export default function Knob({ title, min, max, step, value, valueDetail, onChan
                                 <path d="M20,76 A 40 40 0 1 1 80 76" fill="none" stroke="#55595C" />
                                 <path d="M20,76 A 40 40 0 1 1 80 76" fill="none" />
                         </svg>
-                        <svg className="dial-svg" viewBox="0 0 100 100">
+                        <DialSvg offset={offset} viewBox="0 0 100 100">
                                 <path d="M20,76 A 40 40 0 1 1 80 76" fill="none" stroke="#55595C" />
                                 <path d="M20,76 A 40 40 0 1 1 80 76" fill="none" />
-                        </svg>
+                        </DialSvg>
 
                         <input type="range" value={value} min={min} max={max} step={step} onChange={updateOffset} />
                         <KnobText>{title}</KnobText>

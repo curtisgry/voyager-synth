@@ -6,7 +6,7 @@ import Knob from '../input/Knob';
 export default function Reverb({ reverb, toggleReverb }) {
         const synth = useContext(SynthContext);
         const [verbDecay, setVerbDecay] = useState(10);
-        const [verbTime, setVerbTime] = useState(0.1);
+        const [verbTime, setVerbTime] = useState(4);
 
         function updateVerbTime(e, val = null) {
                 if (!val) {

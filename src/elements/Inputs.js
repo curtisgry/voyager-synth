@@ -119,3 +119,11 @@ export const ScaleDisplay = styled.div`
 export const Range = styled.input`
         width: 80px;
 `;
+
+export const DialSvg = styled.svg.attrs(({ offset }) => ({
+        strokeDashoffset: offset,
+}))`
+        stroke: ${teal};
+        width: 100%;
+        stroke-dasharray: 189px;
+`;
