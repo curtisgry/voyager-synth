@@ -16,10 +16,17 @@ export const GuideList = styled.ul`
         top: 3%;
 
         z-index: 1000;
-        opacity: 0;
+
         transition: all 0.2s;
         border-radius: 4px;
         box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
+
+        ${({ toggle }) => {
+                if (toggle) {
+                        return `opacity: 1;`;
+                }
+                return `opacity: 0;`;
+        }}
         @media (min-width: 649px) {
                 top: 8%;
         }

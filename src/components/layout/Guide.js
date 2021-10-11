@@ -12,7 +12,7 @@ export default function Guide() {
         return (
                 <HelpContainer>
                         <HelpButton onClick={handleClick}>?</HelpButton>
-                        <GuideList className={visible ? 'visible' : ''}>
+                        <GuideList toggle={visible}>
                                 <li>Use keys a,s,d,f,g,h,j,k or click to play notes.</li>
                                 <li>Click the squares in the grid to toggle the notes in the sequence.</li>
                                 <li>
