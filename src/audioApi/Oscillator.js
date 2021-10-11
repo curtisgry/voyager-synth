@@ -27,6 +27,10 @@ export class Synth {
 
                 this.waveForm = 'square';
 
+                this.sustainTime = 0.1;
+                this.attackTime = 0.01;
+                this.releaseTime = 0.01;
+
                 this.compressor = new DynamicsCompressorNode(this._context);
                 this.compressor.threshold.setValueAtTime(-50, audioCtx.currentTime);
                 this.compressor.knee.setValueAtTime(40, audioCtx.currentTime);
@@ -60,17 +64,7 @@ export class Synth {
                 this._verb.buffer = impulse;
         }
 
-        playNote(
-                note,
-                {
-                        wave = this.waveForm,
-                        reverb = this._verbOn,
-                        filter = this._filterOn,
-                        sustainTime,
-                        attackTime,
-                        releaseTime,
-                } = {}
-        ) {
+        playNote(note, { wave = this.waveForm, reverb = this._verbOn, filter = this._filterOn } = {}) {
                 const notePlayed = notes[note];
                 const oscillator = this._context.createOscillator();
                 const time = this._context.currentTime;
@@ -81,9 +75,9 @@ export class Synth {
                 gainNode.gain.cancelScheduledValues(time);
                 gainNode.gain.setValueAtTime(0, time);
 
-                gainNode.gain.linearRampToValueAtTime(1, time + attackTime);
+                gainNode.gain.linearRampToValueAtTime(1, time + this.attackTime);
 
-                gainNode.gain.linearRampToValueAtTime(0, time + attackTime + sustainTime + releaseTime);
+                gainNode.gain.linearRampToValueAtTime(0, time + this.attackTime + this.sustainTime + this.releaseTime);
 
                 oscillator.type = wave;
                 oscillator.frequency.setValueAtTime(notePlayed, time); // value in hertz
@@ -116,7 +110,7 @@ export class Synth {
 
                 // Start and stop instance of the oscillator. The stop method handles removing the instance on its own
                 oscillator.start(time);
-                oscillator.stop(time + attackTime + sustainTime + releaseTime);
+                oscillator.stop(time + this.attackTime + this.sustainTime + this.releaseTime);
         }
 
         set reverb(boolean) {
@@ -129,5 +123,13 @@ export class Synth {
 
         set wave(wavetype) {
                 this.waveForm = wavetype;
+        }
+
+        set attack(time) {
+                this.attackTime = time;
+        }
+
+        set release(time) {
+                this.releaseTime = time;
         }
 }

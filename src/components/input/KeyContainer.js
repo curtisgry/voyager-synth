@@ -37,11 +37,7 @@ export default function KeyContainer({ wave, attack, sustain, release, curKey })
                         if (notes[e.key]) {
                                 const currentNote = currentScale[`${parseInt(notes[e.key])}`];
 
-                                synth.playNote(`${currentNote}`, {
-                                        sustainTime: sustain,
-                                        attackTime: attack,
-                                        releaseTime: release,
-                                });
+                                synth.playNote(`${currentNote}`);
                         }
 
                         setKey((key) => {

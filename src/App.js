@@ -106,11 +106,7 @@ function App() {
                                                 setStep(seqIndex);
                                                 const note = currentScale[sequence[seqIndex][i]];
 
-                                                synth.playNote(`${note}`, {
-                                                        sustainTime: sustain,
-                                                        attackTime: attack,
-                                                        releaseTime: release,
-                                                });
+                                                synth.playNote(`${note}`);
                                         }
                                         if (seqIndex < 15) {
                                                 seqIndex++;
@@ -126,18 +122,22 @@ function App() {
                 if (!val) {
                         const nextAttackTime = parseFloat(e.target.value);
                         setAttack(nextAttackTime);
+                        synth.attack = attack;
                 } else {
                         const nextAttackTime = parseFloat(val);
                         setAttack(nextAttackTime);
+                        synth.attack = attack;
                 }
         }
         function updateRelease(e, val = null) {
                 if (!val) {
                         const nextReleaseTime = parseFloat(e.target.value);
-                        setSustain(nextReleaseTime);
+                        setRelease(nextReleaseTime);
+                        synth.release = release;
                 } else {
                         const nextReleaseTime = parseFloat(val);
                         setRelease(nextReleaseTime);
+                        synth.release = release;
                 }
         }
 

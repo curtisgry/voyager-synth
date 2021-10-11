@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { baseFont, darkPurple, indigo, lightPurple, teal } from '../utilities';
+import { baseFont, darkPurple, indigo, lightPurple, lightPurple2, teal } from '../utilities';
 
 export const OctaveButton = styled.button`
         display: inline-block;
@@ -89,5 +89,17 @@ export const KeyButton = styled.div`
                 width: 60px;
                 height: 60px;
                 font-size: 1rem;
+        }
+`;
+
+export const HelpButton = styled.button`
+        border-radius: 50%;
+        cursor: pointer;
+        border: none;
+        background-color: ${lightPurple2};
+
+        &:hover {
+                background-color: ${lightPurple};
+                color: ${teal};
         }
 `;

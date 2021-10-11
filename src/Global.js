@@ -91,6 +91,10 @@ const GlobalStyle = styled.createGlobalStyle`
                         z-index: -1;
                 }
         }
+
+        .visible {
+                opacity: 1;
+        }
 `;
 
 export default GlobalStyle;

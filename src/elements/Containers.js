@@ -32,3 +32,9 @@ export const Row = styled.div`
                 margin-bottom: 0.5rem;
         }
 `;
+
+export const HelpContainer = styled.div`
+        width: 25%;
+        display: flex;
+        padding: 2rem;
+`;
