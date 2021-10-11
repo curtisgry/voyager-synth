@@ -18,6 +18,7 @@ import Filter from './components/controls/Filter';
 import PlayButton from './components/controls/PlayButton';
 import { BgGif, CornerImage } from './elements';
 import Knob from './components/input/Knob';
+import Guide from './components/layout/Guide';
 
 function App() {
         // Synth envelope values
@@ -149,6 +150,7 @@ function App() {
         return (
                 <div className="App">
                         <BgGif src={particles} />
+                        <Guide />
                         <Header />
                         <FlexRow justify="space-between">
                                 <Octave />
