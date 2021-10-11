@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import Key from './Keys';
-import { FlexRow } from '../../utilities';
+import { FlexRow, FlexRowKey } from '../../utilities';
 
 import { ScaleContext } from '../../context/ScaleContext';
 import SynthContext from '../../context/SynthContext';
@@ -93,7 +93,7 @@ export default function KeyContainer({ wave, attack, sustain, release, curKey })
         }, [octave, wave, attack, sustain, release, currentScale, curKey, curScaleType]);
 
         return (
-                <FlexRow justify="space-evenly">
+                <FlexRowKey justify="space-evenly">
                         <Key
                                 handleMouseDown={handleMouseDown}
                                 handleMouseUp={handleMouseUp}
@@ -150,6 +150,6 @@ export default function KeyContainer({ wave, attack, sustain, release, curKey })
                                 note={currentScale['7']}
                                 keyValue={keyValues[7]}
                         />
-                </FlexRow>
+                </FlexRowKey>
         );
 }

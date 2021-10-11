@@ -96,7 +96,7 @@ export const ScaleDisplay = styled.div`
         flex-direction: column-reverse;
         justify-content: space-between;
         position: absolute;
-        left: 10%;
+        left: 8%;
         margin-top: 0.3rem;
         height: 344px;
         color: ${teal};
@@ -106,9 +106,13 @@ export const ScaleDisplay = styled.div`
         }
 
         @media (max-width: 1200px) {
-                left: 5px;
+                left: 5%;
                 font-size: 0.7rem;
                 height: 208px;
+        }
+
+        @media (max-width: 600px) {
+                left: 5px;
         }
 
         @media (max-width: 320px) {

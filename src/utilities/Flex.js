@@ -16,6 +16,35 @@ export const FlexRow = styled.div`
                 flex-wrap: wrap;
                 width: 90%;
         }
+
+        @media (max-width: 700px) {
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                width: 70%;
+        }
+`;
+
+export const FlexRowKey = styled.div`
+        width: 80%;
+        margin: 0 auto;
+
+        display: flex;
+
+        row-gap: 1rem;
+        column-gap: 1rem;
+        justify-content: ${(props) => props.justify};
+        /* align-items: center; */
+        margin-bottom: 2rem;
+
+        @media (max-width: 1200px) {
+                flex-wrap: wrap;
+                width: 90%;
+        }
+
+        @media (max-width: 700px) {
+                width: 80%;
+        }
 `;
 
 export const FlexRowSequence = styled.div`

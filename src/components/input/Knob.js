@@ -3,8 +3,12 @@ import styled from 'styled-components';
 import { teal } from '../../utilities';
 
 const KnobContainer = styled.div`
-        width: 100px;
-        height: 100px;
+        ${({ width }) => `
+                width: ${width}px;
+                height: ${width}px;
+        `}
+        /* width: 100px;
+        height: 100px; */
 
         margin: 0 auto;
         position: relative;
@@ -25,20 +29,29 @@ const DialSvg = styled.svg.attrs(({ offset }) => ({
         stroke: ${teal};
         width: 100%;
         stroke-dasharray: 189px;
+        transition: all 0.2ss;
 `;
 
 const KnobLine = styled.div`
         width: 2px;
-        height: 18px;
+        ${({ width }) => `
+                 height: 10px;
+             
+        `}
+
         background-color: ${teal};
         position: absolute;
         left: 0;
         bottom: -5px;
         transform: rotate(45deg);
+        transition: all 0.2s ease;
 `;
 const LineContainer = styled.div`
-        width: 50px;
-        height: 50px;
+        ${({ width }) => `
+                width: calc(${width}px / 2);
+                height: calc(${width}px / 2);
+        `}
+
         left: 50%;
 
         position: absolute;
@@ -71,10 +84,11 @@ const KnobDisplay = styled.span`
         transform: translate(-50%, -50%);
 `;
 
-export default function Knob({ title, min, max, step, value, valueDetail, onChange }) {
-        const [offset, setOffset] = useState(189);
+export default function Knob({ width, title, min, max, step, value, valueDetail, onChange }) {
+        const [offset, setOffset] = useState(192);
         const [active, setActive] = useState(false);
         const [stateValue, setStateValue] = useState();
+
         const [stepCount, setStepCount] = useState(0);
         const [rotation, setRotation] = useState(4);
 
@@ -99,9 +113,9 @@ export default function Knob({ title, min, max, step, value, valueDetail, onChan
 
                 const startingOffset = ((max - min) / value).toFixed(2);
 
-                setOffset(offset - (189 / startingOffset).toFixed(2));
+                setOffset(offset - (192 / startingOffset).toFixed(2));
 
-                setRotation((260 / startingOffset).toFixed(2));
+                setRotation((275 / startingOffset).toFixed(2));
         }, []);
 
         function dragHandler(e) {
@@ -110,7 +124,7 @@ export default function Knob({ title, min, max, step, value, valueDetail, onChan
                         if (e.movementY === -1) {
                                 if (Math.floor(offset) > 0) {
                                         setOffset(offset - (189 / max) * parseFloat(step));
-                                        setRotation(parseFloat(rotation) + (260 / max) * parseFloat(step));
+                                        setRotation(parseFloat(rotation) + (264 / max) * parseFloat(step));
 
                                         const newVal = (
                                                 max -
@@ -137,14 +151,12 @@ export default function Knob({ title, min, max, step, value, valueDetail, onChan
         }
 
         function toggleActive(e) {
-                console.log(e.target);
                 setActive((act) => !act);
         }
         function toggleActiveUp(e) {
                 setActive(false);
         }
         function leaveToggleActive(e) {
-                console.log(e.target);
                 if (active) {
                         setActive((act) => !act);
                 }
@@ -158,9 +170,10 @@ export default function Knob({ title, min, max, step, value, valueDetail, onChan
                         onMouseLeave={leaveToggleActive}
                         onMouseMove={dragHandler}
                         offset={offset}
+                        width={width}
                 >
-                        <LineContainer rotation={rotation}>
-                                <KnobLine />
+                        <LineContainer width={width} rotation={rotation}>
+                                <KnobLine width={width} />
                         </LineContainer>
                         <KnobDisplay>
                                 {value}
@@ -180,3 +193,7 @@ export default function Knob({ title, min, max, step, value, valueDetail, onChan
                 </KnobContainer>
         );
 }
+
+Knob.defaultProps = {
+        width: '80',
+};
