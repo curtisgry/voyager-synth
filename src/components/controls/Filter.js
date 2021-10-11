@@ -4,9 +4,9 @@ import { ControlDetail, ControlTitle, ControlContainer, ControlSubContainer, Ran
 import { ControlsToggleButton } from '../../elements/Buttons';
 import Knob from '../input/Knob';
 
-export default function Filter({ filter, toggleFilter }) {
+export default function Filter({ filter, toggleFilter, min }) {
         const synth = useContext(SynthContext);
-        const [freq, setFreq] = useState(50);
+        const [freq, setFreq] = useState(300);
 
         function updateFreq(e, val = null) {
                 if (!val) {
@@ -14,9 +14,8 @@ export default function Filter({ filter, toggleFilter }) {
 
                         setFreq(nextFreq);
                         synth.addFilter(freq);
-                } else {
+                } else if (val > min) {
                         const nextFreq = parseFloat(val);
-
                         setFreq(nextFreq);
                         synth.addFilter(freq);
                 }
@@ -39,9 +38,9 @@ export default function Filter({ filter, toggleFilter }) {
                                         title="Frequency"
                                         valueDetail="Hz"
                                         value={freq}
-                                        min={50}
-                                        max={10000}
-                                        step="25"
+                                        min={200}
+                                        max={2000}
+                                        step="10"
                                         onChange={updateFreq}
                                 />
                         </ControlSubContainer>

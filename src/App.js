@@ -184,7 +184,7 @@ function App() {
                         <FlexRow justify="space-between">
                                 <Tempo tempo={tempo} changeTempo={changeTempo} />
                                 <Reverb reverb={reverb} toggleReverb={toggleReverb} />
-                                <Filter filter={filter} toggleFilter={toggleFilter} />
+                                <Filter min={200} filter={filter} toggleFilter={toggleFilter} />
                                 <PlayButton
                                         isPlaying={isPlaying}
                                         togglePlaying={togglePlaying}

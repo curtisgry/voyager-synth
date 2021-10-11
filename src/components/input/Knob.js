@@ -120,7 +120,6 @@ export default function Knob({ width, title, min, max, step, value, valueDetail,
 
         function dragHandler(e) {
                 if (active) {
-                        // console.log(e);
                         if (e.movementY === -1) {
                                 if (Math.floor(offset) > 0) {
                                         setOffset(offset - (189 / max) * parseFloat(step));
@@ -136,7 +135,7 @@ export default function Knob({ width, title, min, max, step, value, valueDetail,
                                 }
                         }
                         if (e.movementY === 1) {
-                                if (Math.floor(offset) < 189) {
+                                if (Math.floor(offset) < 189 && value > min) {
                                         setOffset(offset + (189 / max) * parseFloat(step));
                                         setRotation(rotation - (264 / max) * parseFloat(step));
 
