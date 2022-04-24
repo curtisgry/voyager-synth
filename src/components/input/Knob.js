@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import { teal } from '../../utilities';
 
@@ -30,6 +30,7 @@ const DialSvg = styled.svg.attrs(({ offset }) => ({
         width: 100%;
         stroke-dasharray: 189px;
         transition: all 0.2ss;
+        pointer-events: none;
 `;
 
 const KnobLine = styled.div`
@@ -45,6 +46,7 @@ const KnobLine = styled.div`
         bottom: -5px;
         transform: rotate(45deg);
         transition: all 0.2s ease;
+        pointer-events: none;
 `;
 const LineContainer = styled.div`
         ${({ width }) => `
@@ -57,6 +59,7 @@ const LineContainer = styled.div`
         position: absolute;
         top: 50%;
         z-index: 100;
+        pointer-events: none;
 
         /* background-color: white; */
 
@@ -74,6 +77,7 @@ const KnobText = styled.p`
         bottom: -10px;
         left: 50%;
         transform: translateX(-50%);
+        pointer-events: none;
 `;
 
 const KnobDisplay = styled.span`
@@ -82,15 +86,19 @@ const KnobDisplay = styled.span`
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+        pointer-events: none;
 `;
 
 export default function Knob({ width, title, min, max, step, value, valueDetail, onChange }) {
         const [offset, setOffset] = useState(192);
         const [active, setActive] = useState(false);
         const [stateValue, setStateValue] = useState();
+        const [lastY, setLastY] = useState(null);
 
         const [stepCount, setStepCount] = useState(0);
         const [rotation, setRotation] = useState(4);
+
+        const knobRef = useRef();
 
         function countDecimals(num) {
                 const value = parseFloat(num);
@@ -103,6 +111,52 @@ export default function Knob({ width, title, min, max, step, value, valueDetail,
 
         function updateOffset(e) {
                 onChange(e);
+        }
+
+        function dragHandler(e) {
+                if (!lastY) {
+                        setLastY(e.clientY);
+                }
+
+                const currentY = e.clientY;
+
+                if (active) {
+                        if (lastY > currentY) {
+                                if (Math.floor(offset) > 0) {
+                                        setOffset(offset - (189 / max) * parseFloat(step));
+                                        setRotation(parseFloat(rotation) + (264 / max) * parseFloat(step));
+
+                                        const newVal = (
+                                                max -
+                                                (offset / 189) * Math.abs(max - min) +
+                                                parseFloat(step)
+                                        ).toFixed(stepCount);
+                                        onChange(e, newVal);
+                                        setLastY(e.clientY);
+                                        return setStateValue(parseFloat(newVal));
+                                }
+                        }
+                        if (lastY < currentY) {
+                                if (Math.floor(offset) < 189 && value > min) {
+                                        setOffset(offset + (189 / max) * parseFloat(step));
+                                        setRotation(rotation - (264 / max) * parseFloat(step));
+
+                                        const newVal = (max - (offset / 189) * Math.abs(max - min) - step).toFixed(
+                                                stepCount
+                                        );
+                                        onChange(e, newVal);
+                                        setLastY(e.clientY);
+                                        return setStateValue(parseFloat(newVal));
+                                }
+                        }
+                }
+        }
+
+        function toggleActive(e) {
+                setActive((act) => !act);
+                // if (e.target === knobRef.current) {
+                //         setActive((act) => !act);
+                // }
         }
 
         useEffect(() => {
@@ -118,59 +172,38 @@ export default function Knob({ width, title, min, max, step, value, valueDetail,
                 setRotation((275 / startingOffset).toFixed(2));
         }, []);
 
-        function dragHandler(e) {
-                if (active) {
-                        if (e.movementY === -1) {
-                                if (Math.floor(offset) > 0) {
-                                        setOffset(offset - (189 / max) * parseFloat(step));
-                                        setRotation(parseFloat(rotation) + (264 / max) * parseFloat(step));
+        useEffect(() => {
+                console.log(active);
+                const onWindowMouseMove = (e) => {
+                        dragHandler(e);
+                };
+                const onKnobClick = (e) => {
+                        toggleActive(e);
+                };
 
-                                        const newVal = (
-                                                max -
-                                                (offset / 189) * Math.abs(max - min) +
-                                                parseFloat(step)
-                                        ).toFixed(stepCount);
-                                        onChange(e, newVal);
-                                        return setStateValue(parseFloat(newVal));
-                                }
-                        }
-                        if (e.movementY === 1) {
-                                if (Math.floor(offset) < 189 && value > min) {
-                                        setOffset(offset + (189 / max) * parseFloat(step));
-                                        setRotation(rotation - (264 / max) * parseFloat(step));
+                const toggleActiveUp = (e) => {
+                        setActive(false);
+                };
 
-                                        const newVal = (max - (offset / 189) * Math.abs(max - min) - step).toFixed(
-                                                stepCount
-                                        );
-                                        onChange(e, newVal);
-                                        return setStateValue(parseFloat(newVal));
-                                }
-                        }
-                }
-        }
+                window.addEventListener('mousemove', onWindowMouseMove);
+                knobRef.current.addEventListener('mousedown', onKnobClick);
+                window.addEventListener('mouseup', toggleActiveUp);
+                return () => {
+                        window.removeEventListener('mouseup', toggleActiveUp);
+                        knobRef.current.removeEventListener('mousedown', onKnobClick);
+                        window.removeEventListener('mousemove', onWindowMouseMove);
+                };
+        });
 
-        function toggleActive(e) {
-                setActive((act) => !act);
-        }
-        function toggleActiveUp(e) {
-                setActive(false);
-        }
         function leaveToggleActive(e) {
-                if (active) {
-                        setActive((act) => !act);
-                }
+                console.log('leave');
+                // if (active) {
+                //         setActive((act) => !act);
+                // }
         }
 
         return (
-                <KnobContainer
-                        active={active}
-                        onMouseDown={toggleActive}
-                        onMouseUp={toggleActiveUp}
-                        onMouseLeave={leaveToggleActive}
-                        onMouseMove={dragHandler}
-                        offset={offset}
-                        width={width}
-                >
+                <KnobContainer ref={knobRef} active={active} offset={offset} width={width}>
                         <LineContainer width={width} rotation={rotation}>
                                 <KnobLine width={width} />
                         </LineContainer>
@@ -178,7 +211,7 @@ export default function Knob({ width, title, min, max, step, value, valueDetail,
                                 {value}
                                 {valueDetail || ''}
                         </KnobDisplay>
-                        <svg viewBox="0 0 100 100">
+                        <svg style={{ pointerEvents: 'none' }} viewBox="0 0 100 100">
                                 <path d="M20,76 A 40 40 0 1 1 80 76" fill="none" stroke="#55595C" />
                                 <path d="M20,76 A 40 40 0 1 1 80 76" fill="none" />
                         </svg>
